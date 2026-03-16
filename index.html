@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aeroma Cafe | Direct Booking</title>
+    <style>
+        :root {
+            --accent: #00d2ff;
+            --dark: #121212;
+            --glass: rgba(255, 255, 255, 0.1);
+            --whatsapp-green: #25D366;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--dark);
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1511419019442-3a557b425164?auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .booking-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        h1 { text-align: center; letter-spacing: 3px; margin-bottom: 5px; color: var(--accent); }
+        p.tagline { text-align: center; font-size: 0.8rem; margin-bottom: 30px; opacity: 0.7; }
+
+        label { display: block; margin-bottom: 8px; font-size: 0.9rem; opacity: 0.9; }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .slot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .slot-btn {
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .slot-btn.active {
+            background: var(--accent);
+            color: black;
+            font-weight: bold;
+            border-color: var(--accent);
+        }
+
+        .whatsapp-btn {
+            background: var(--whatsapp-green);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+
+        .whatsapp-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3); }
+    </style>
+</head>
+<body>
+
+<div class="booking-card">
+    <h1>AEROMA</h1>
+    <p class="tagline">SELECT YOUR POOL SESSION</p>
+
+    <label>Your Name</label>
+    <input type="text" id="name" placeholder="Enter your name">
+
+    <label>Select Date</label>
+    <input type="date" id="date">
+
+    <label>Choose a Slot</label>
+    <div class="slot-grid">
+        <div class="slot-btn" onclick="selectSlot(this, 'Morning (8AM-11AM)')">Morning<br>8-11 AM</div>
+        <div class="slot-btn" onclick="selectSlot(this, 'Afternoon (12PM-3PM)')">Afternoon<br>12-3 PM</div>
+        <div class="slot-btn" onclick="selectSlot(this, 'Sunset (4PM-7PM)')">Sunset<br>4-7 PM</div>
+        <div class="slot-btn" onclick="selectSlot(this, 'Night (8PM-11PM)')">Night<br>8-11 PM</div>
+    </div>
+
+    <button class="whatsapp-btn" onclick="sendToWhatsApp()">
+        <span>Confirm on WhatsApp</span>
+    </button>
+</div>
+
+<script>
+    let selectedSlot = "";
+
+    function selectSlot(element, slot) {
+        // Remove active class from all
+        document.querySelectorAll('.slot-btn').forEach(btn => btn.classList.remove('active'));
+        // Add active to clicked
+        element.classList.add('active');
+        selectedSlot = slot;
+    }
+
+    function sendToWhatsApp() {
+        const name = document.getElementById('name').value;
+        const date = document.getElementById('date').value;
+        const phone = "917069898938"; // Replace with Aeroma Cafe's actual WhatsApp number (include country code)
+
+        if (!name || !date || !selectedSlot) {
+            alert("Please fill in all details!");
+            return;
+        }
+
+        // Format the message
+        const message = `*Aeroma Cafe Booking*%0A` + 
+                        `--------------------------%0A` +
+                        `*Name:* ${name}%0A` +
+                        `*Date:* ${date}%0A` +
+                        `*Slot:* ${selectedSlot}%0A` +
+                        `--------------------------%0A` +
+                        `Please confirm my pool reservation!`;
+
+        // Open WhatsApp
+        window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
